@@ -3,12 +3,16 @@ import jwt from "jsonwebtoken";
 import env from "../../environment/env.config";
 import { AuthRepository } from "./auth.repository";
 import { User } from "./auth.model";
+import { EmailService } from "../../shared/services/email.service";
+
 
 export class AuthService {
   private authRepository: AuthRepository;
+  private emailService: EmailService;
 
   constructor() {
     this.authRepository = new AuthRepository();
+    this.emailService = new EmailService();
   }
 
   public async register(email: string, password: string): Promise<User> {
@@ -20,6 +24,7 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.authRepository.createUser(email, hashedPassword);
+    await this.emailService.sendWelcomeEmail(email);
     return user;
   }
 

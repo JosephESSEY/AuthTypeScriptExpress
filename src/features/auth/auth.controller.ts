@@ -20,9 +20,10 @@ export class AuthController {
         status: "success",
         data: user,
       });
-    } catch (error) {
-      next(error);
-    }
+    } catch (error : any) {
+      res.status(error.statusCode || 500).json({
+        error : error.message || 'Internal Server Error',
+      })    }
   };
 
   public login = async (
@@ -37,8 +38,10 @@ export class AuthController {
         status: "success",
         data: token,
       });
-    } catch (error) {
-      next(error);
+    } catch (error: any) {
+      res.status(error.statusCode || 500).json({
+        error : error.message || 'Internal Server Error',
+      })
     }
   };
 }

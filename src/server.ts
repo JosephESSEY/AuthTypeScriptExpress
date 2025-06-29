@@ -1,5 +1,4 @@
 import { App } from "./app";
-import { config } from "dotenv";
 import env from "./environment/env.config"
 
 const app = new App();
